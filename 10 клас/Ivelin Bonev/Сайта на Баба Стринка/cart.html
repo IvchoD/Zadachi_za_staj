@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кошница - Електронната изба на баба Стринка</title>
+
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f5f0e6;
+            background-image:
+                linear-gradient(180deg, rgba(0, 150, 110, 0.07) 0%, transparent 140px),
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(208, 28, 31, 0.03) 0px,
+                    rgba(208, 28, 31, 0.03) 2px,
+                    transparent 2px,
+                    transparent 24px
+                );
+            color: #3a2f28;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(180deg, #c8102e 0%, #a50f26 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border-bottom: 4px solid #00966e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        nav {
+            background-color: #fff;
+            text-align: center;
+            padding: 12px;
+            border-bottom: 3px solid #00966e;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        }
+        nav a {
+            color: #c8102e;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 15px;
+            font-size: 1.1rem;
+        }
+        nav a:hover {
+            color: #00966e;
+            text-decoration: underline;
+        }
+        #cart-count {
+            display: inline-block;
+            background: #00966e;
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 7px;
+            border-radius: 12px;
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+        section {
+            padding: 2rem;
+            max-width: 900px;
+            margin: auto;
+        }
+        h2 {
+            color: #c8102e;
+        }
+        .empty-cart {
+            background: white;
+            border: 2px dashed #c8102e;
+            border-left: 5px solid #00966e;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+        }
+        .empty-cart a {
+            color: #00966e;
+            font-weight: bold;
+        }
+        .cart-item {
+            display: grid;
+            grid-template-columns: 90px 1fr auto;
+            gap: 1rem;
+            align-items: center;
+            background: white;
+            border: 2px dashed #c8102e;
+            border-top: 3px solid #00966e;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 150, 110, 0.08);
+        }
+        .cart-item img {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+        .cart-item h3 {
+            margin: 0 0 0.4rem;
+            font-size: 1.1rem;
+        }
+        .cart-item .item-price {
+            color: #00966e;
+            font-weight: bold;
+            margin: 0;
+        }
+        .cart-item .item-subtotal {
+            font-size: 0.95rem;
+            color: #666;
+            margin: 0.25rem 0 0;
+        }
+        .cart-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+        }
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .qty-btn {
+            width: 36px;
+            height: 36px;
+            border: 2px solid #00966e;
+            background: white;
+            color: #00966e;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .qty-btn:hover {
+            background: #e8f5f0;
+        }
+        .qty-value {
+            min-width: 28px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #c8102e;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 0;
+        }
+        .delete-btn:hover {
+            color: #a50f26;
+        }
+        .cart-summary {
+            background: white;
+            border: 2px dashed #c8102e;
+            border-left: 5px solid #00966e;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 150, 110, 0.08);
+        }
+        .cart-summary .total {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #00966e;
+            margin: 0 0 1.5rem;
+        }
+        .checkout-btn {
+            width: 100%;
+            background-color: #c8102e;
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.15rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .checkout-btn:hover {
+            background-color: #a50f26;
+        }
+        .checkout-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .payment-panel {
+            display: none;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed #e8f5f0;
+        }
+        .payment-panel.open {
+            display: block;
+        }
+        .payment-panel h3 {
+            color: #c8102e;
+            margin-top: 0;
+        }
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .pay-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            border: 2px solid #00966e;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #3a2f28;
+            transition: background 0.2s;
+        }
+        .pay-btn:hover {
+            background: #e8f5f0;
+        }
+        .pay-btn.full-width {
+            grid-column: 1 / -1;
+        }
+        .pay-btn.card {
+            border-color: #c8102e;
+        }
+        .pay-btn.card:hover {
+            background: #fde8eb;
+        }
+        .checkout-message {
+            display: none;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #e8f5f0;
+            border: 2px dashed #00966e;
+            border-radius: 8px;
+            color: #00966e;
+            font-weight: bold;
+            text-align: center;
+        }
+        .checkout-message.show {
+            display: block;
+        }
+        .cart-item.checkout-clear {
+            opacity: 0;
+            transform: scale(0.92);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+        @media (max-width: 600px) {
+            .cart-item {
+                grid-template-columns: 70px 1fr;
+            }
+            .cart-controls {
+                grid-column: 1 / -1;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .payment-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Електронната изба на баба Стринка</h1>
+    <p>Вашата кошница с домашна зимнина</p>
+</header>
+
+<nav>
+    <a href="index.html">Начало</a> |
+    <a href="products.html">Продуктов каталог</a> |
+    <a href="cart.html">Кошница <span id="cart-count" hidden>0</span></a>
+</nav>
+
+<section>
+    <h2>Кошница</h2>
+    <p class="checkout-message" id="checkout-success"></p>
+    <div id="cart-items"></div>
+    <div id="empty-cart" class="empty-cart" hidden>
+        <p>Кошницата ви е празна.</p>
+        <p><a href="products.html">Разгледайте продуктовия каталог</a></p>
+    </div>
+
+    <div id="cart-summary" class="cart-summary" hidden>
+        <p class="total" id="cart-total"></p>
+        <button type="button" class="checkout-btn" id="checkout-toggle">Плащане</button>
+
+        <div class="payment-panel" id="payment-panel">
+            <h3>Изберете начин на плащане</h3>
+            <div class="payment-grid">
+                <button type="button" class="pay-btn" data-method="Google Pay">Google Pay</button>
+                <button type="button" class="pay-btn" data-method="Apple Pay">Apple Pay</button>
+                <button type="button" class="pay-btn" data-method="Bitcoin">₿ Bitcoin</button>
+                <button type="button" class="pay-btn" data-method="PayPal">PayPal</button>
+                <button type="button" class="pay-btn card full-width" data-method="Дебитна/кредитна карта">💳 Дебитна / кредитна карта</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="cart.js"></script>
+<script>
+    const cartItemsEl = document.getElementById('cart-items');
+    const emptyCartEl = document.getElementById('empty-cart');
+    const cartSummaryEl = document.getElementById('cart-summary');
+    const cartTotalEl = document.getElementById('cart-total');
+    const checkoutToggle = document.getElementById('checkout-toggle');
+    const paymentPanel = document.getElementById('payment-panel');
+    const checkoutSuccess = document.getElementById('checkout-success');
+
+    function renderCart() {
+        const { items, totalBgn, totalEur } = getCartTotals();
+        cartItemsEl.innerHTML = '';
+
+        if (items.length === 0) {
+            emptyCartEl.hidden = false;
+            cartSummaryEl.hidden = true;
+            paymentPanel.classList.remove('open');
+            return;
+        }
+
+        checkoutSuccess.classList.remove('show');
+        checkoutSuccess.textContent = '';
+
+        emptyCartEl.hidden = true;
+        cartSummaryEl.hidden = false;
+        cartTotalEl.textContent = `Общо: ${totalBgn.toFixed(2)} лв. / ${totalEur} €`;
+
+        items.forEach(({ product, qty }) => {
+            const subtotalBgn = product.priceBgn * qty;
+            const item = document.createElement('article');
+            item.className = 'cart-item';
+            item.dataset.productId = product.id;
+            item.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <div>
+                    <h3>${product.name}</h3>
+                    <p class="item-price">${formatPrice(product.priceBgn)}</p>
+                    <p class="item-subtotal">Междинна сума: ${subtotalBgn.toFixed(2)} лв. / ${toEur(subtotalBgn)} €</p>
+                </div>
+                <div class="cart-controls">
+                    <div class="qty-controls">
+                        <button type="button" class="qty-btn qty-minus" aria-label="Намали">−</button>
+                        <span class="qty-value">${qty}</span>
+                        <button type="button" class="qty-btn qty-plus" aria-label="Увеличи">+</button>
+                    </div>
+                    <button type="button" class="delete-btn">Премахни</button>
+                </div>
+            `;
+
+            item.querySelector('.qty-plus').addEventListener('click', () => {
+                changeQuantity(product.id, 1);
+                renderCart();
+            });
+            item.querySelector('.qty-minus').addEventListener('click', () => {
+                changeQuantity(product.id, -1);
+                renderCart();
+            });
+            item.querySelector('.delete-btn').addEventListener('click', () => {
+                removeFromCart(product.id);
+                renderCart();
+            });
+
+            cartItemsEl.appendChild(item);
+        });
+    }
+
+    checkoutToggle.addEventListener('click', () => {
+        if (getCartItems().length === 0) return;
+        paymentPanel.classList.toggle('open');
+        checkoutSuccess.classList.remove('show');
+    });
+
+    document.querySelectorAll('.pay-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const { totalBgn, totalEur, items } = getCartTotals();
+            if (items.length === 0) return;
+
+            const method = btn.dataset.method;
+            paymentPanel.classList.remove('open');
+
+            cartItemsEl.querySelectorAll('.cart-item').forEach((el) => {
+                el.classList.add('checkout-clear');
+            });
+
+            setTimeout(() => {
+                clearCart();
+                checkoutSuccess.textContent =
+                    `Благодарим ви! Поръчката ви за ${totalBgn.toFixed(2)} лв. / ${totalEur} € с ${method} е приета. Баба Стринка вече затваря бурканите!`;
+                checkoutSuccess.classList.add('show');
+                renderCart();
+            }, 380);
+        });
+    });
+
+    window.addEventListener('cart-updated', renderCart);
+    renderCart();
+</script>
+
+</body>
+</html>

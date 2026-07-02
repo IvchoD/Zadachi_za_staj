@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Начало - Електронната изба на баба Стринка</title>
+
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f5f0e6;
+            background-image:
+                linear-gradient(180deg, rgba(0, 150, 110, 0.07) 0%, transparent 140px),
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(208, 28, 31, 0.03) 0px,
+                    rgba(208, 28, 31, 0.03) 2px,
+                    transparent 2px,
+                    transparent 24px
+                );
+            color: #3a2f28;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(180deg, #c8102e 0%, #a50f26 100%);
+            color: white;
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            border-bottom: 4px solid #00966e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        nav {
+            background-color: #fff;
+            text-align: center;
+            padding: 12px;
+            border-bottom: 3px solid #00966e;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        }
+        nav a {
+            color: #c8102e;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 15px;
+            font-size: 1.1rem;
+        }
+        nav a:hover {
+            color: #00966e;
+            text-decoration: underline;
+        }
+        #cart-count {
+            display: inline-block;
+            background: #00966e;
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 7px;
+            border-radius: 12px;
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+        section {
+            padding: 2rem;
+            max-width: 1000px;
+            margin: auto;
+        }
+        .info-card {
+            background: white;
+            border: 2px dashed #c8102e;
+            border-left: 5px solid #00966e;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease-in-out;
+            box-shadow: 0 2px 8px rgba(0, 150, 110, 0.08);
+        }
+        /* Чист CSS Hover ефект без JavaScript */
+        .info-card:hover {
+            transform: scale(1.02);
+        }
+        h2 {
+            color: #c8102e;
+            border-bottom: 2px solid #e8f5f0;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        .highlight {
+            color: #00966e;
+            font-weight: bold;
+        }
+        .catalog-link {
+            display: inline-block;
+            background-color: #00966e;
+            color: white;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            transition: background-color 0.2s ease;
+        }
+        .catalog-link:hover {
+            background-color: #007a59;
+        }
+        .cta-card {
+            text-align: center;
+        }
+        /* Респонсивност за iPhone 4 и по-нови телефони */
+        @media (max-width: 768px) {
+            section {
+                padding: 1rem;
+            }
+            .info-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Електронната изба на баба Стринка</h1>
+    <p>Добре дошли в нашето дигитално кътче, ухаещо на дюли и чиста носталгия! [cite: 4]</p>
+</header>
+
+<nav>
+    <a href="index.html">Начало</a> |
+    <a href="products.html">Продуктов каталог</a> |
+    <a href="cart.html">Кошница <span id="cart-count" hidden>0</span></a>
+</nav>
+
+<section>
+    <div class="info-card">
+        <h2>Кои сме ние?</h2>
+        <p>Ние сме малък семейен бизнес, воден от неуморната <span class="highlight">баба Стринка</span> и нейната амбиция да изведе традиционната българска зимнина на глобалния пазар[cite: 2, 3]. Ние не просто затваряме плодове в буркани – ние консервираме спомени, детство и щипка селска идилия.</p>
+    </div>
+
+    <div class="info-card">
+        <h2>Откъде вземаме продуктите ни?</h2>
+        <p>Всички плодове се набавят директно от чистия и плодороден край на нашето село. Джанките, черешите и мушмулите се берат рано сутрин на ръка[cite: 8]. Работим в тясно сътрудничество с местни производители и градинари, включително и със спонсорираната градина на <span class="highlight">дядо ти Христо</span>[cite: 8], за да гарантираме, че във всеки буркан влизат само премиум съставки.</p>
+    </div>
+
+    <div class="info-card">
+        <h2>Защо го правим?</h2>
+        <p>Направихме този онлайн магазин с една основна цел: <span class="highlight">да съсипем конкуренцията на местния супермаркет</span> и да докажем, че бабините рецепти нямат аналог[cite: 2, 3]. Искаме да дадем възможност на всеки човек по света да усети автентичния вкус на истинския домашен компот, без изкуствени консерванти и подсладители.</p>
+    </div>
+
+    <div class="info-card cta-card">
+        <h2>Готови за зимнина?</h2>
+        <p>Разгледайте нашите домашни компоти — от джанка до дюля, всичко с любов от селото.</p>
+        <a class="catalog-link" href="products.html">Към продуктовия каталог</a>
+    </div>
+</section>
+
+<script src="cart.js"></script>
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Продуктов каталог - Електронната изба на баба Стринка</title>
+
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f5f0e6;
+            background-image:
+                linear-gradient(180deg, rgba(0, 150, 110, 0.07) 0%, transparent 140px),
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(208, 28, 31, 0.03) 0px,
+                    rgba(208, 28, 31, 0.03) 2px,
+                    transparent 2px,
+                    transparent 24px
+                );
+            color: #3a2f28;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(180deg, #c8102e 0%, #a50f26 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border-bottom: 4px solid #00966e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        nav {
+            background-color: #fff;
+            text-align: center;
+            padding: 12px;
+            border-bottom: 3px solid #00966e;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        }
+        nav a {
+            color: #c8102e;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 15px;
+            font-size: 1.1rem;
+        }
+        nav a:hover {
+            color: #00966e;
+            text-decoration: underline;
+        }
+        section {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: auto;
+        }
+        h2 {
+            color: #c8102e;
+        }
+        .about-section {
+            background-color: #fff;
+            border: 2px dashed #c8102e;
+            border-left: 5px solid #00966e;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 150, 110, 0.08);
+        }
+        /* CSS Grid за продуктите */
+        .catalog {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .product-card {
+            background: white;
+            border: 2px dashed #c8102e;
+            border-top: 3px solid #00966e;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 150, 110, 0.08);
+        }
+        /* Hover ефект за уголемяване */
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background-color: #e0d4c8;
+            border-radius: 5px;
+            object-fit: cover;
+            display: block;
+        }
+        .product-image.placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b2635;
+            font-style: italic;
+        }
+        .badge {
+            background-color: #00966e;
+            color: white;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        .price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #00966e;
+        }
+        .add-to-cart {
+            position: relative;
+            overflow: hidden;
+            background-color: #c8102e;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+            width: 100%;
+            font-family: inherit;
+            font-weight: bold;
+        }
+        .add-to-cart span {
+            position: relative;
+            z-index: 2;
+        }
+        .add-to-cart::before,
+        .add-to-cart::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            clip-path: circle(0% at 50% 50%);
+            pointer-events: none;
+            border-radius: inherit;
+        }
+        .add-to-cart.animate::before {
+            background: #00966e;
+            animation: cartWaveOut 0.35s ease-out forwards;
+        }
+        .add-to-cart.animate::after {
+            background: #c8102e;
+            animation: cartWaveOut 0.35s ease-out 0.35s forwards;
+        }
+        @keyframes cartWaveOut {
+            to { clip-path: circle(150% at 50% 50%); }
+        }
+        #cart-count {
+            display: inline-block;
+            background: #00966e;
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 7px;
+            border-radius: 12px;
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+        /* Респонсивен дизайн за телефон */
+        @media (max-width: 768px) {
+            .catalog {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Електронната изба на баба Стринка</h1>
+    <p>Премиум компоти с аромат на носталгия и дюли! Най-доброто от глобалния пазар на домашна зимнина.</p>
+</header>
+
+<nav>
+    <a href="index.html">Начало</a> |
+    <a href="products.html">Продуктов каталог</a> |
+    <a href="cart.html">Кошница <span id="cart-count" hidden>0</span></a>
+</nav>
+
+<section>
+    <div class="about-section">
+        <h2>За баба Стринка</h2>
+        <p>Всичко започна, когато баба Стринка реши да съсипе конкуренцията на местния супермаркет. Вдъхновена от старите тефтери на прабаба си, тя затваря в буркани не просто плодове, а истински шедьоври и спомени от детството.</p>
+    </div>
+
+    <h2>Продуктов каталог</h2>
+    <div class="catalog">
+        <div class="product-card" data-product-id="djanka">
+            <div class="badge">Изборът на дядо</div>
+            <img class="product-image" src="pictures/djanki-indrishe-kompot.webp" alt="Класическа джанка">
+            <h3>Класическа джанка</h3>
+            <p class="price">12.50 лв. / 6.39 €</p>
+            <button type="button" class="add-to-cart"><span>Добави в кошницата</span></button>
+        </div>
+        <div class="product-card" data-product-id="cheresha">
+            <img class="product-image" src="pictures/big_kompot-ot-chereshi_snimka_5.webp" alt="Бутикова череша с костилка">
+            <h3>Бутикова череша с костилка</h3>
+            <p class="price">15.00 лв. / 7.67 €</p>
+            <button type="button" class="add-to-cart"><span>Добави в кошницата</span></button>
+        </div>
+        <div class="product-card" data-product-id="mushmula">
+            <div class="badge">Изборът на дядо</div>
+            <img class="product-image" src="pictures/sladko_ot_Mushmula.webp" alt="Екзотична мушмула">
+            <h3>Екзотична мушмула</h3>
+            <p class="price">18.99 лв. / 9.71 €</p>
+            <button type="button" class="add-to-cart"><span>Добави в кошницата</span></button>
+        </div>
+        <div class="product-card" data-product-id="praskova">
+            <img class="product-image" src="pictures/kompotpraskovki2-flx.webp" alt="Прасковата на дядо ти Христо">
+            <h3>Прасковата на дядо ти Христо</h3>
+            <p class="price">22.00 лв. / 11.25 €</p>
+            <button type="button" class="add-to-cart"><span>Добави в кошницата</span></button>
+        </div>
+        <div class="product-card" data-product-id="dulja">
+            <img class="product-image" src="pictures/kompotcheduli.webp" alt="Носталгична дюля">
+            <h3>Носталгична дюля</h3>
+            <p class="price">14.00 лв. / 7.16 €</p>
+            <button type="button" class="add-to-cart"><span>Добави в кошницата</span></button>
+        </div>
+        <div class="product-card" data-product-id="yagoda">
+            <img class="product-image" src="pictures/kompot-ot-iagodi-8342d06a41740c279a4701afb76cbc58-[101345].webp" alt="Специална ягода">
+            <h3>Специална ягода</h3>
+            <p class="price">16.50 лв. / 8.44 €</p>
+            <button type="button" class="add-to-cart"><span>Добави в кошницата</span></button>
+        </div>
+    </div>
+</section>
+
+<script src="cart.js"></script>
+</body>
+</html>
