@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>МЕЖДУЗВЕЗДЕН ГОЛФ 4 — КОСМИЧЕСКИ ПЪТЕВОДИТЕЛ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="eyebrow">GOLF 4 AEROSPACE // TIME TRAVEL DIVISION</div>
+  <h1 class="brand">МЕЖДУЗВЕЗДЕН<span>ГОЛФ 4</span></h1>
+  <p class="tagline">
+    Земята е скучна. Бюджетът — още повече. Изберете дата от миналото
+    и нашият тунингован Голф 4 (1.6, газова уредба, наляво тегли малко)
+    ще ви откара до дестинацията на деня — директно от архивите на НАСА.
+  </p>
+
+  <div class="spec-strip">
+    <div><strong>1.6L</strong>ДВИГАТЕЛ</div>
+    <div><strong>ГАЗ/БЕНЗИН</strong>ГОРИВО</div>
+    <div><strong>&infin; Св. Год.</strong>ОБХВАТ</div>
+    <div><strong>4</strong>СЕДАЛКИ (ВОДАЧ)</div>
+  </div>
+</header>
+
+<main>
+  <form class="controls" id="apod-form">
+    <div class="field">
+      <label for="apod-date">Дата на пътуването</label>
+      <input type="date" id="apod-date" name="apod-date">
+    </div>
+    <button type="submit" class="launch">Покажи ми дестинацията &rarr;</button>
+  </form>
+
+  <div class="error-box" id="error-box">
+    Газовата уредба на машината на времето гръмна. Моля, изберете минала дата!
+  </div>
+
+  <div class="destination">
+    <div class="card" id="postcard">
+      <div class="card-tag">
+        <span>Мисия: Активна</span>
+        <span class="status" id="apod-date-label">—</span>
+      </div>
+      <img id="apod-img" src="" alt="Космическа дестинация">
+      <div class="card-body">
+        <h2 id="apod-title">Зареждане на дестинацията…</h2>
+        <div class="meta">NASA APOD // Официален туристически доклад</div>
+        <p class="excerpt" id="apod-excerpt">Изчакайте, докато Голф 4 загрее двигателя…</p>
+        <a href="#full-description" class="details-btn">ПРОЧЕТИ ПЪЛНИЯ ПЪТЕВОДИТЕЛ &rarr;</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal" id="full-description">
+  <div class="modal-box">
+    <a href="#" class="modal-close" aria-label="Затвори">×</a>
+    <div class="eyebrow-small">Пълен пътеводител</div>
+    <h3 id="modal-title">Описание на дестинацията</h3>
+    <p id="modal-text">Текстът на НАСА ще се появи тук.</p>
+  </div>
+</div>
+
+<footer>
+  Golf 4 Aerospace · Захранва се от NASA APOD API · Не носим отговорност за телепортационна болест
+</footer>
+<script>
+  const API_KEY = '4NTCo91ba2se2ualOrk4bqeimoPRbFgCsfGvlAnb';
+  const form = document.getElementById('apod-form');
+  const dateInput = document.getElementById('apod-date');
+  const errorBox = document.getElementById('error-box');
+  const postcard = document.getElementById('postcard');
+
+  function loadApod(dateStr) {
+    let url = 'https://api.nasa.gov/planetary/apod?api_key=' + API_KEY;
+    if (dateStr) url += '&date=' + dateStr;
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        if (data.code || data.error || !data.url) {
+          errorBox.classList.add('show');
+          postcard.style.display = 'none';
+          return;
+        }
+        errorBox.classList.remove('show');
+        postcard.style.display = 'block';
+
+        document.getElementById('apod-img').src = data.hdurl || data.url;
+        document.getElementById('apod-title').textContent = data.title;
+        document.getElementById('apod-date-label').textContent = data.date;
+        document.getElementById('apod-excerpt').textContent = data.explanation.slice(0, 170) + '…';
+
+        document.getElementById('modal-title').textContent = data.title;
+        document.getElementById('modal-text').textContent = data.explanation;
+      })
+      .catch(() => {
+        errorBox.classList.add('show');
+        postcard.style.display = 'none';
+      });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const chosen = dateInput.value;
+    const today = new Date().toISOString().split('T')[0];
+
+    if (chosen && chosen > today) {
+      errorBox.classList.add('show');
+      postcard.style.display = 'none';
+      return;
+    }
+
+    loadApod(chosen);
+  });
+
+  loadApod('');
+</script>
+</body>
+</html>
