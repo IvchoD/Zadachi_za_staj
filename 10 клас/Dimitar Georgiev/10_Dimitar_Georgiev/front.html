@@ -1,0 +1,1042 @@
+<!---Кода е написан от Димитър Георгиев, 10а клас
+Като цяло, изкусвен интелект е използван само и едниствено за генериране на текста, jar файловете(тоест бурканите) и
+логиката зад тях, както и малко асистенция зад кашницата
+Дизайна е изцело осмислен от мен, което включва навигацията, локигата зад бутоните, подреждането на бурканите в катало-
+га и всичко останало
+като цяло,надявам се на Баба Стринка да и е харесал дизайна и да постави добре отценка 
+Бележка: сайта също работи на телефон
+Време прекарано: от 19:30 до 1:00 и от 9:00 до 11:59
+--->
+
+
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Баба Стринка — Електронната изба</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Archivo:wght@500;700;900&family=Inter:wght@400;500;600&display=swap');
+
+:root{
+  --cellar-black: #1b140f;
+  --paper: #f4ead9;
+  --card: #fbf5ea;
+  --plum: #6d1f3c;
+  --plum-dark: #4c1329;
+  --amber: #c97d2f;
+  --gold: #d9a441;
+  --sage: #4a5d3a;
+  --ink: #241a12;
+  --ink-soft: #5a4c3d;
+  --line: rgba(36,26,18,0.12);
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  line-height:1.6;
+  background-image: radial-gradient(rgba(36,26,18,0.035) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+
+.eyebrow{
+  font-family:'Archivo', sans-serif;
+  font-weight:700;
+  font-size:0.72rem;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color: var(--plum);
+}
+.wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+
+.nav{
+  position:sticky; top:0; z-index:50;
+  background: rgba(27,20,15,0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(244,234,217,0.1);
+}
+.nav-inner{
+  max-width:1180px; margin:0 auto; padding:16px 32px;
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:12px;
+}
+.logo{
+  font-family:'Archivo', sans-serif;
+  font-weight:900;
+  font-size:1.05rem;
+  letter-spacing:0.03em;
+  color: var(--paper);
+  display:flex; align-items:center; gap:10px;
+}
+.logo-mark{
+  width:26px; height:26px; border-radius:5px 5px 12px 12px;
+  background: linear-gradient(160deg, var(--amber), var(--plum));
+  border:1px solid rgba(255,255,255,0.25);
+  flex-shrink:0;
+  box-shadow: 0 0 10px rgba(201, 125, 47, 0.4);
+}
+.nav-links{ display:flex; gap:28px; list-style:none; flex-wrap:wrap; }
+.nav-links a{
+  font-family:'Archivo', sans-serif;
+  font-weight:700;
+  font-size:0.8rem;
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+  color: var(--paper);
+  opacity:0.85;
+  padding-bottom:4px;
+  border-bottom: 2px solid transparent;
+  transition: border-color .3s ease, opacity .3s ease;
+}
+.nav-links a:hover{ opacity:1; border-color: var(--amber); }
+
+.cart-btn{
+  position:relative; display:flex; align-items:center; gap:8px;
+  background: var(--amber); color: var(--cellar-black);
+  padding:9px 18px; border-radius:999px; border:none;
+  font-family:'Archivo', sans-serif; font-weight:700;
+  font-size:0.78rem; letter-spacing:0.04em; text-transform:uppercase;
+  cursor:pointer; transition: all .25s ease;
+}
+.cart-btn:hover{ background: var(--gold); transform: translateY(-2px); }
+.cart-badge{
+  position:absolute; top:-7px; right:-7px;
+  background: var(--plum); color: var(--paper);
+  font-family:'Archivo', sans-serif; font-size:0.65rem; font-weight:900;
+  min-width:18px; height:18px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; padding:0 4px;
+  border:2px solid var(--cellar-black);
+}
+.cart-badge[hidden]{ display:none; }
+
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  font-family:'Archivo', sans-serif;
+  font-weight:700;
+  font-size:0.82rem;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  padding:14px 30px;
+  border-radius:999px;
+  border:2px solid var(--ink);
+  cursor:pointer;
+  transition: all .3s ease;
+}
+.btn-solid{ background: var(--ink); color: var(--paper); }
+.btn-solid:hover{ transform:translateY(-3px); background: var(--plum); border-color: var(--plum); box-shadow: 0 8px 15px rgba(109,31,60,0.2); }
+.btn-ghost{ background:transparent; color:var(--ink); }
+.btn-ghost:hover{ transform:translateY(-3px); background: var(--ink); color:var(--paper); box-shadow: 0 8px 15px rgba(36,26,18,0.15); }
+
+.btn-jar{
+  width:100%; padding:11px 18px; font-size:0.72rem;
+  background: var(--ink); color: var(--paper);
+  border-radius:999px; border:none;
+  font-family:'Archivo', sans-serif; font-weight:700;
+  letter-spacing:0.05em; text-transform:uppercase;
+  cursor:pointer;
+  transition: all .3s ease;
+}
+.btn-jar:hover{ background: var(--plum); transform: translateY(-3px); box-shadow: 0 6px 12px rgba(109,31,60,0.3); }
+
+.hero{ padding: 74px 0 90px; }
+.hero-inner{ display:grid; grid-template-columns: 1.05fr 0.95fr; gap:56px; align-items:center; }
+.hero h1{
+  font-family:'Fraunces', serif; font-weight:700;
+  font-size: clamp(2.4rem, 4.6vw, 3.7rem); line-height:1.06;
+  margin: 14px 0 22px; color: var(--ink);
+}
+.hero h1 em{ font-style: italic; font-weight:500; color: var(--plum); }
+.hero p{ font-size:1.05rem; color: var(--ink-soft); max-width: 480px; margin-bottom: 30px; }
+.hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
+.hint-3d{
+  font-family:'Archivo', sans-serif; font-size:0.68rem; font-weight:700;
+  letter-spacing:0.06em; text-transform:uppercase; color: var(--ink-soft);
+  opacity:0.7; display:flex; align-items:center; gap:6px; margin-top:4px;
+}
+
+.hero-jar-stage{
+  display:flex; justify-content:center; align-items:flex-end;
+  position:relative; min-height:460px;
+  padding-top: 50px; /* дава въздух над буркана, за да не се допира до горния ръб при hover */
+}
+.hero-shadow {
+  position: absolute; bottom: 0; left: 50%;
+  width: 200px; height: 20px;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.3), transparent 70%);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+}
+.hero-jar-stage:hover .hero-shadow {
+  transform: translateX(-50%) scale(0.7);
+  opacity: 0.4;
+}
+
+.jar-visual{
+  position:relative;
+  width:170px;
+  padding-top: 52px;
+  z-index: 2;
+  transition: transform .5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.jar-visual.big{ width:290px; padding-top:87px; }
+.jar-visual.xl{ width:250px; padding-top:75px; }
+
+.jar-visual::before{
+  content:''; position:absolute; top:-10px; left:50%;
+  width:80px; height:80px;
+  background: radial-gradient(circle, rgba(255,255,255,0.8), transparent 60%);
+  filter: blur(8px);
+  transform: translateX(-50%) scale(0.5);
+  opacity:0;
+  transition: all .5s ease;
+  pointer-events:none;
+  z-index:6;
+}
+
+.hero-jar-stage:hover .jar-visual,
+.product-card:hover .jar-visual,
+.about-frame:hover .jar-visual {
+  transform: translateY(-12px) scale(1.05);
+}
+.hero-jar-stage:hover .jar-visual::before,
+.product-card:hover .jar-visual::before,
+.about-frame:hover .jar-visual::before {
+  opacity:0.9; transform: translateX(-50%) scale(1) translateY(-20px);
+}
+
+.jar-canvas-wrap{
+  width:170px; height:204px;
+  position:relative;
+  cursor: grab;
+  touch-action: pan-y;
+  z-index: 3;
+}
+.jar-canvas-wrap.big{ width:290px; height:328px; }
+.jar-canvas-wrap.xl{ width:250px; height:283px; }
+.jar-canvas-wrap.dragging{ cursor: grabbing; }
+.jar-canvas-wrap canvas{ display:block; width:100%; height:100%; }
+
+.jar-label{
+  position:absolute; left:50%; bottom:15%; width:62%;
+  transform: translateX(-50%) rotate(-1.2deg);
+  background: var(--card);
+  background-image: radial-gradient(rgba(27,20,15,0.05) 0.6px, transparent 0.6px);
+  background-size: 6px 6px;
+  border: 1.5px solid var(--ink);
+  border-radius: 9px;
+  padding: 14px 9px 10px;
+  text-align:center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.22);
+  transition: transform .4s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 5;
+  pointer-events:none;
+}
+.product-card:nth-child(even) .jar-label{ transform: translateX(-50%) rotate(1.2deg); }
+
+.jar-label::before{
+  content:''; position:absolute; inset:4px;
+  border:1px solid rgba(27,20,15,0.32);
+  border-radius:5px;
+  pointer-events:none;
+}
+
+.jar-label::after{
+  content:'❖';
+  position:absolute; top:-10px; left:50%;
+  transform:translateX(-50%);
+  width:19px; height:19px; border-radius:50%;
+  background: var(--plum); color: var(--paper);
+  font-size:0.52rem; line-height:19px;
+  border:2px solid var(--paper);
+  box-shadow:0 2px 5px rgba(0,0,0,0.32);
+}
+
+.tag-brand{
+  display:block; font-family:'Archivo', sans-serif; font-weight:700;
+  font-size:0.4rem; letter-spacing:0.12em; text-transform:uppercase; color: var(--plum); margin-bottom:2px;
+}
+.tag-rule{
+  display:block; width:44%; height:1px; margin:5px auto 6px; position:relative;
+  background: rgba(27,20,15,0.28);
+}
+.tag-rule::after{
+  content:'✦'; position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  background: var(--card); padding:0 5px;
+  font-size:0.5rem; color: var(--plum);
+}
+.tag-name{
+  display:block; font-family:'Fraunces', serif; font-style: italic; font-weight:600;
+  font-size:0.64rem; line-height:1.15; color: var(--ink);
+}
+.jar-visual.big .tag-brand{ font-size:0.48rem; }
+.jar-visual.big .tag-name{ font-size:0.78rem; }
+.jar-visual.big .jar-label{ padding:18px 10px 11px; }
+.jar-visual.big .jar-label::after{ width:23px; height:23px; font-size:0.6rem; line-height:23px; top:-12px; }
+.jar-visual.xl .tag-brand{ font-size:0.53rem; }
+.jar-visual.xl .tag-name{ font-size:0.86rem; }
+.jar-visual.xl .jar-label{ padding:20px 11px 13px; }
+.jar-visual.xl .jar-label::after{ width:25px; height:25px; font-size:0.65rem; line-height:25px; top:-13px; }
+
+.hero-jar-stage:hover .jar-label,
+.product-card:hover .jar-label,
+.about-frame:hover .jar-label {
+  transform: translateX(-50%) rotate(0deg) scale(1.02);
+}
+
+.about{ background: var(--cellar-black); color: var(--paper); padding: 84px 0; }
+.about .eyebrow{ color: var(--amber); }
+.about-inner{ display:grid; grid-template-columns: 1fr 1.1fr; gap:56px; align-items:center; }
+.about h2{
+  font-family:'Fraunces', serif; font-weight:600;
+  font-size: clamp(1.8rem, 3vw, 2.5rem); margin: 12px 0 20px; line-height:1.15;
+}
+.about p{ color: rgba(244,234,217,0.78); margin-bottom:16px; max-width:560px; }
+.about-frame
+{
+  aspect-ratio: 4/5; border-radius: 14px;
+  background: repeating-linear-gradient(135deg, rgba(217,164,65,0.08) 0 2px, transparent 2px 14px), linear-gradient(160deg, #2a1f16, #14100b);
+  border:1px solid rgba(217,164,65,0.35);
+  display:flex; align-items:center; justify-content:center;
+  position:relative;
+  
+}
+
+
+.est-badge{
+  position:absolute; top:18px; left:18px;
+  font-family:'Archivo', sans-serif; font-weight:900;
+  font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase;
+  color: var(--amber); border:1px solid rgba(217,164,65,0.5);
+  padding:6px 10px; border-radius:999px; z-index: 10;
+}
+
+.products{ padding: 90px 0 60px; }
+.products-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin-bottom:40px; flex-wrap:wrap; }
+.products h2{ font-family:'Fraunces', serif; font-weight:600; font-size: clamp(1.8rem, 3vw, 2.4rem); margin-top:10px; }
+.products-head p{ color: var(--ink-soft); max-width:340px; }
+
+.grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:26px; row-gap:44px; }
+
+.product-card{
+  background: var(--card); border:1px solid var(--line); border-radius:16px;
+  padding:36px 22px 22px; position:relative;
+  display:flex; flex-direction:column; align-items:center;
+  transition: transform .4s ease, box-shadow .4s ease;
+  z-index: 1;
+}
+.product-card:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.product-shadow {
+  width: 120px; height: 12px;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.15), transparent 70%);
+  border-radius: 50%; margin-top: 10px; margin-bottom: 20px;
+  transition: all 0.5s ease;
+}
+.product-card:hover .product-shadow {
+  transform: scale(0.6); opacity: 0.3;
+}
+
+.badge-seal{
+  position:absolute; top:-12px; right:-10px; width:68px; height:68px; border-radius:50%;
+  background: radial-gradient(circle at 32% 30%, var(--gold), #a5701f);
+  border: 2px dashed rgba(255,255,255,0.6);
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  font-family:'Archivo', sans-serif; font-weight:900; font-size:0.56rem; letter-spacing:0.02em; line-height:1.15;
+  color:#2c1b06; transform: rotate(-9deg); box-shadow: 0 6px 12px rgba(27,20,15,0.25); z-index:20;
+}
+
+.product-name{ font-family:'Fraunces', serif; font-weight:600; font-size:1.05rem; margin: 0 0 6px; text-align:center; }
+.product-desc{ font-size:0.85rem; color: var(--ink-soft); text-align:center; margin-bottom:16px; min-height:38px; }
+.product-price{ font-family:'Archivo', sans-serif; font-weight:900; font-size:1.15rem; color: var(--plum); margin-bottom:14px; }
+
+.qty-stepper{ display:flex; align-items:center; justify-content:center; gap:14px; margin-bottom:14px; }
+.qty-btn{
+  width:28px; height:28px; border-radius:50%;
+  border:1.5px solid var(--ink); background:transparent; color:var(--ink);
+  font-family:'Archivo', sans-serif; font-weight:700; font-size:0.9rem;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition: all .22s ease; line-height:1;
+}
+.qty-btn:hover{ background: var(--ink); color: var(--paper); transform: translateY(-1px); }
+.qty-value{ font-family:'Archivo', sans-serif; font-weight:700; font-size:0.95rem; min-width:18px; text-align:center; }
+
+.cart-overlay{
+  position:fixed; inset:0; background: rgba(27,20,15,0.5);
+  opacity:0; pointer-events:none; transition: opacity .3s ease; z-index:90;
+}
+.cart-overlay.open{ opacity:1; pointer-events:auto; }
+
+.cart-drawer{
+  position:fixed; top:0; right:0; height:100%; width:400px; max-width:90vw;
+  background: var(--paper); box-shadow: -12px 0 34px rgba(0,0,0,0.28);
+  transform: translateX(100%); transition: transform .4s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index:91; display:flex; flex-direction:column;
+}
+.cart-drawer.open{ transform: translateX(0); }
+
+.cart-head{
+  padding:24px 26px; border-bottom:1px solid var(--line);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.cart-head h3{ font-family:'Fraunces', serif; font-weight:600; font-size:1.25rem; }
+.cart-close{
+  background:none; border:none; font-size:1.3rem; line-height:1;
+  cursor:pointer; color: var(--ink-soft); transition: color .2s ease;
+}
+.cart-close:hover{ color: var(--plum); }
+
+.cart-items{ flex:1; overflow-y:auto; padding:6px 26px; }
+.cart-empty{ color: var(--ink-soft); text-align:center; padding:50px 10px; font-size:0.92rem; }
+
+.cart-item{
+  display:flex; align-items:center; gap:12px;
+  padding:16px 0; border-bottom:1px dashed var(--line);
+}
+.cart-item-name{ flex:1; font-family:'Fraunces', serif; font-style:italic; font-size:0.9rem; line-height:1.25; }
+.cart-item-qty{ display:flex; align-items:center; gap:6px; }
+.cart-item-qty .qty-btn{ width:24px; height:24px; font-size:0.78rem; }
+.cart-item-qty .qty-value{ font-size:0.85rem; min-width:14px; }
+.cart-item-price{ font-family:'Archivo', sans-serif; font-weight:700; font-size:0.85rem; color: var(--plum); min-width:66px; text-align:right; }
+.cart-item-remove{
+  background:none; border:none; color: var(--ink-soft); font-size:0.95rem;
+  cursor:pointer; transition: color .2s ease; line-height:1; padding:2px;
+}
+.cart-item-remove:hover{ color: var(--plum); }
+
+.cart-foot{ padding:20px 26px 26px; border-top:1px solid var(--line); }
+.cart-total-row{
+  display:flex; justify-content:space-between; align-items:baseline;
+  font-family:'Archivo', sans-serif; font-weight:900; font-size:1.1rem;
+  margin-bottom:16px; color: var(--ink);
+}
+.cart-total-row span:last-child{ color: var(--plum); }
+.cart-checkout-btn{ width:100%; }
+
+footer{ background: var(--cellar-black); color: rgba(244,234,217,0.65); padding: 40px 0; text-align:center; font-size:0.82rem; }
+footer strong{ color: var(--paper); }
+
+@media (max-width: 900px){
+  .hero-inner, .about-inner{ grid-template-columns: 1fr; }
+  .hero-jar-stage, .about-frame{ order:-1; }
+  .grid{ grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px){
+  .wrap{ padding:0 20px; }
+  .nav-inner{ padding:14px 20px; justify-content:center; text-align:center; }
+  .nav-links{ justify-content:center; gap:18px; }
+  .grid{ grid-template-columns: 1fr; }
+  .hero{ padding:50px 0 60px; }
+  .about, .products{ padding:56px 0; }
+  .hero-ctas{ justify-content:center; }
+  .hero p{ max-width:100%; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .jar-visual, .jar-label{ transition:none !important; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#home" class="logo"><span class="logo-mark"></span>БАБА СТРИНКА</a>
+    <ul class="nav-links">
+      <li><a href="#home">Начало</a></li>
+      <li><a href="#about">За баба Стринка</a></li>
+      <li><a href="#products">Продукти</a></li>
+    </ul>
+    <button class="cart-btn" id="cartToggle" aria-label="Отвори кошницата">
+      🧺 Кошница
+      <span class="cart-badge" id="cartBadge" hidden>0</span>
+    </button>
+  </div>
+</nav>
+
+<section class="hero" id="home">
+  <div class="wrap hero-inner">
+    <div>
+      <span class="eyebrow">Избено от 1962-ра</span>
+      <h1>Компот, консервиран<br>с обич. И <em>малко</em><br>носталгия.</h1>
+      <p>Баба Стринка върти буркани откакто се помни. Днес ги пращаме извън селото — чак до твоята кухня, където и да си. Рецептата обаче не мърда.</p>
+      <div class="hero-ctas">
+        <a href="#products" class="btn btn-solid">Разгледай буркани</a>
+        <a href="#about" class="btn btn-ghost">Историята на баба</a>
+      </div>
+      <p class="hint-3d">🔄 Плъзни буркана, за да го завъртиш</p>
+    </div>
+    <div class="hero-jar-stage">
+      <div class="hero-shadow"></div>
+      <div class="jar-visual big">
+        <div class="jar-canvas-wrap big" data-jar data-liquid="#8a2646" data-liquid-dark="#5a1530"></div>
+        <div class="jar-label"><span class="tag-brand">Баба Стринка</span><span class="tag-rule"></span><span class="tag-name">Бутикова череша с костилка</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap about-inner">
+    <div class="about-frame">
+      <span class="est-badge">Основано 1962</span>
+      <div class="jar-visual xl">
+        <div class="jar-canvas-wrap xl" data-jar data-liquid="#c97d2f" data-liquid-dark="#8a521a"></div>
+        <div class="jar-label"><span class="tag-brand">Баба Стринка</span><span class="tag-rule"></span><span class="tag-name">Дюля с канела</span></div>
+      </div>
+    </div>
+    <div>
+      <span class="eyebrow">Историята</span>
+      <h2>От бабината градина, право на твоята маса</h2>
+      <p>Баба Стринка вари компот, откакто се помни — първо за да не се разхищава реколтата от двора, после защото цялото село започна да чука на вратата ѝ за буркан. Всяка партида минава на бавен огън, с плодове от собствената градина и капачка, затегната на ръка, не с машина.</p>
+      <p>Днес рецептите пътуват извън селото, но нищо друго не се е променило. Баба лично избира плодовете, познава зрелостта им по мирис и не вярва на никой таймер освен на своя. Ние просто ѝ помогнахме да отвори "магазин" — тя се съгласи, стига никой освен нея да не пипа буркана.</p>
+    </div>
+  </div>
+</section>
+
+<section class="products" id="products">
+  <div class="wrap">
+    <div class="products-head">
+      <div>
+        <span class="eyebrow">Каталог</span>
+        <h2>Шест вкуса и само една репутация за пазене.</h2>
+      </div>
+      <p>Всеки буркан идва право от избата на баба - с плод от сезона, минал на бавен огън, без консерванти и без бързане. Завърти го отблизо, избери по колко искаш и го добави в кошницата.</p>
+    </div>
+
+    <div class="grid">
+      <div class="product-card" data-id="janka" data-name="Класическа джанка" data-price="4.45">
+        <div class="jar-visual">
+          <div class="jar-canvas-wrap" data-jar data-liquid="#7a2340" data-liquid-dark="#4c1329"></div>
+          <div class="jar-label"><span class="tag-brand">Баба Стринка</span><span class="tag-rule"></span><span class="tag-name">Класическа джанка</span></div>
+        </div>
+        <div class="product-shadow"></div>
+        <p class="product-name">Класическа джанка</p>
+        <p class="product-desc">Дървото е на 40 години, рецептата — още повече.</p>
+        <p class="product-price">4.45 €</p>
+        <div class="qty-stepper">
+          <button class="qty-btn" type="button" data-qty-action="dec">−</button>
+          <span class="qty-value">1</span>
+          <button class="qty-btn" type="button" data-qty-action="inc">+</button>
+        </div>
+        <button class="btn-jar" type="button" data-add-to-cart>Добави в кошницата</button>
+      </div>
+      <div class="product-card" data-id="cheresha" data-name="Бутикова череша с костилка" data-price="5.75">
+        <span class="badge-seal">ИЗБОРЪТ<br>НА ДЯДО</span>
+        <div class="jar-visual">
+          <div class="jar-canvas-wrap" data-jar data-liquid="#8a2646" data-liquid-dark="#5a1530"></div>
+          <div class="jar-label"><span class="tag-brand">Баба Стринка</span><span class="tag-rule"></span><span class="tag-name">Бутикова череша с костилка</span></div>
+        </div>
+        <div class="product-shadow"></div>
+        <p class="product-name">Бутикова череша с костилка</p>
+        <p class="product-desc">Костилката е нарочно — за характер.</p>
+        <p class="product-price">5.75 €</p>
+        <div class="qty-stepper">
+          <button class="qty-btn" type="button" data-qty-action="dec">−</button>
+          <span class="qty-value">1</span>
+          <button class="qty-btn" type="button" data-qty-action="inc">+</button>
+        </div>
+        <button class="btn-jar" type="button" data-add-to-cart>Добави в кошницата</button>
+      </div>
+      <div class="product-card" data-id="mushmula" data-name="Екзотична мушмула" data-price="6.60">
+        <div class="jar-visual">
+          <div class="jar-canvas-wrap" data-jar data-liquid="#6b4a2e" data-liquid-dark="#432d1b"></div>
+          <div class="jar-label"><span class="tag-brand">Баба Стринка</span><span class="tag-rule"></span><span class="tag-name">Екзотична мушмула</span></div>
+        </div>
+        <div class="product-shadow"></div>
+        <p class="product-name">Екзотична мушмула</p>
+        <p class="product-desc">Единственият буркан, който баба обяснява дълго.</p>
+        <p class="product-price">6.60 €</p>
+        <div class="qty-stepper">
+          <button class="qty-btn" type="button" data-qty-action="dec">−</button>
+          <span class="qty-value">1</span>
+          <button class="qty-btn" type="button" data-qty-action="inc">+</button>
+        </div>
+        <button class="btn-jar" type="button" data-add-to-cart>Добави в кошницата</button>
+      </div>
+      <div class="product-card" data-id="praskova" data-name="Прасковата на дядо ти Христо" data-price="4.95">
+        <span class="badge-seal">ИЗБОРЪТ<br>НА ДЯДО</span>
+        <div class="jar-visual">
+          <div class="jar-canvas-wrap" data-jar data-liquid="#d98a3d" data-liquid-dark="#a1591c"></div>
+          <div class="jar-label"><span class="tag-brand">Баба Стринка</span><span class="tag-rule"></span><span class="tag-name">Прасковата на Христо</span></div>
+        </div>
+        <div class="product-shadow"></div>
+        <p class="product-name">Прасковата на дядо ти Христо</p>
+        <p class="product-desc">Работи и със спонсори. Дядо не пита кои.</p>
+        <p class="product-price">4.95 €</p>
+        <div class="qty-stepper">
+          <button class="qty-btn" type="button" data-qty-action="dec">−</button>
+          <span class="qty-value">1</span>
+          <button class="qty-btn" type="button" data-qty-action="inc">+</button>
+        </div>
+        <button class="btn-jar" type="button" data-add-to-cart>Добави в кошницата</button>
+      </div>
+      <div class="product-card" data-id="dulia" data-name="Дюля с канела и мед" data-price="5.20">
+        <div class="jar-visual">
+          <div class="jar-canvas-wrap" data-jar data-liquid="#c9a13a" data-liquid-dark="#8a6a1e"></div>
+          <div class="jar-label"><span class="tag-brand">Баба Стринка</span><span class="tag-rule"></span><span class="tag-name">Дюля с канела и мед</span></div>
+        </div>
+        <div class="product-shadow"></div>
+        <p class="product-name">Дюля с канела и мед</p>
+        <p class="product-desc">Мирише на избата на баба още преди да го отвориш.</p>
+        <p class="product-price">5.20 €</p>
+        <div class="qty-stepper">
+          <button class="qty-btn" type="button" data-qty-action="dec">−</button>
+          <span class="qty-value">1</span>
+          <button class="qty-btn" type="button" data-qty-action="inc">+</button>
+        </div>
+        <button class="btn-jar" type="button" data-add-to-cart>Добави в кошницата</button>
+      </div>
+      <div class="product-card" data-id="jagoda" data-name="Горска ягода от Балкана" data-price="6.40">
+        <div class="jar-visual">
+          <div class="jar-canvas-wrap" data-jar data-liquid="#a52048" data-liquid-dark="#6d1330"></div>
+          <div class="jar-label"><span class="tag-brand">Баба Стринка</span><span class="tag-rule"></span><span class="tag-name">Горска ягода</span></div>
+        </div>
+        <div class="product-shadow"></div>
+        <p class="product-name">Горска ягода от Балкана</p>
+        <p class="product-desc">Бране на ръка, по баба-темпо — тоест бавно.</p>
+        <p class="product-price">6.40 €</p>
+        <div class="qty-stepper">
+          <button class="qty-btn" type="button" data-qty-action="dec">−</button>
+          <span class="qty-value">1</span>
+          <button class="qty-btn" type="button" data-qty-action="inc">+</button>
+        </div>
+        <button class="btn-jar" type="button" data-add-to-cart>Добави в кошницата</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><strong>Баба Стринка</strong> — от избата, с обич. P.S: работи дори и на най-старите телефони</p>
+    <p style="margin-top:6px;">© 2026, всички буркани запазени</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  if (typeof THREE === "undefined") return;
+
+  function buildJarProfile(){
+    var pts = [
+      [0.00, 0.00],
+      [0.85, 0.00],
+      [0.95, 0.06],
+      [0.95, 1.55],
+      [0.90, 1.75],
+      [0.62, 1.95],
+      [0.60, 2.05],
+      [0.66, 2.10],
+      [0.58, 2.15],
+      [0.00, 2.15]
+    ];
+    return pts.map(function(p){ return new THREE.Vector2(p[0], p[1]); });
+  }
+
+  function buildLiquidProfile(){
+    
+    var pts = [
+      [0.00, 0.05],
+      [0.78, 0.05],
+      [0.87, 0.11],
+      [0.87, 1.55],
+      [0.82, 1.74],
+      [0.58, 1.93],
+      [0.55, 2.05],
+      [0.50, 2.11],
+      [0.00, 2.11]
+    ];
+    return pts.map(function(p){ return new THREE.Vector2(p[0], p[1]); });
+  }
+
+  function ginghamTexture(){
+    var c = document.createElement("canvas");
+    c.width = 32; c.height = 32;
+    var ctx = c.getContext("2d");
+    ctx.fillStyle = "#fdfaf3";
+    ctx.fillRect(0,0,32,32);
+    ctx.fillStyle = "rgba(109,31,60,0.55)";
+    var s = 8;
+    for (var y=0; y<32; y+=s){
+      for (var x=0; x<32; x+=s){
+        if (((x/s) + (y/s)) % 2 === 0) ctx.fillRect(x,y,s,s);
+      }
+    }
+    var tex = new THREE.CanvasTexture(c);
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+    tex.repeat.set(4,2);
+    return tex;
+  }
+
+  var JAR_GEO = new THREE.LatheGeometry(buildJarProfile(), 40);
+  var LIQUID_GEO = new THREE.LatheGeometry(buildLiquidProfile(), 40);
+  var LID_BASE_GEO = new THREE.CylinderGeometry(0.66, 0.62, 0.08, 40);
+  var LID_DOME_GEO = new THREE.CylinderGeometry(0.62, 0.60, 0.30, 40);
+
+  var GLASS_MATERIAL = new THREE.MeshPhysicalMaterial({
+    color: 0xffffff,
+    metalness: 0.0,
+    roughness: 0.06,
+    transparent: true,
+    opacity: 0.22,
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.08,
+    depthWrite: false,
+    side: THREE.DoubleSide
+  });
+
+  var LID_BASE_MATERIAL = new THREE.MeshStandardMaterial({
+    color: 0xfdfaf3, roughness: 0.6, metalness: 0.05
+  });
+
+  var LID_DOME_MATERIAL = new THREE.MeshStandardMaterial({
+    map: ginghamTexture(), roughness: 0.7, metalness: 0.05
+  });
+
+  var LID_Y = 2.15 + 0.04; // base center y
+  var DOME_Y = 2.15 + 0.08 + 0.15; // dome center y
+  var LOOK_Y = 1.40;
+  var CAMERA_Z = 5.7;
+
+  function Jar3D(el){
+    this.el = el;
+    this.big = el.classList.contains("big");
+    this.liquidColor = el.getAttribute("data-liquid") || "#7a2340";
+    this.liquidColorDark = el.getAttribute("data-liquid-dark") || "#4c1329";
+
+    this.rotY = Math.random() * Math.PI * 2;
+    this.dragging = false;
+    this.lastX = 0;
+    this.lastY = 0;
+    this.velocity = 0;
+    this.hovered = false;
+    this.lidLift = 0;
+    this.scaleAmt = 1;
+    this.visible = true;
+    this.raf = null;
+
+    this.init();
+    this.bindEvents();
+    this.observeVisibility();
+    this.observeResize();
+    this.animate = this.animate.bind(this);
+    this.raf = requestAnimationFrame(this.animate);
+  }
+
+  Jar3D.prototype.init = function(){
+    var w = this.el.clientWidth || (this.big ? 200 : 150);
+    var h = this.el.clientHeight || (this.big ? 226 : 180);
+
+    this.scene = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(30, w / h, 0.1, 50);
+    this.camera.position.set(0, LOOK_Y + 0.15, CAMERA_Z);
+    this.camera.lookAt(0, LOOK_Y, 0);
+
+    this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+    this.renderer.setSize(w, h);
+    this.el.appendChild(this.renderer.domElement);
+
+    this.group = new THREE.Group();
+
+    var glass = new THREE.Mesh(JAR_GEO, GLASS_MATERIAL);
+    glass.renderOrder = 2;
+    this.group.add(glass);
+
+    var liquidMat = new THREE.MeshPhongMaterial({
+      color: this.liquidColor,
+      shininess: 70,
+      specular: 0x552f2f,
+      transparent: true,
+      opacity: 0.88,
+      depthWrite: false,
+      side: THREE.DoubleSide
+    });
+    var liquid = new THREE.Mesh(LIQUID_GEO, liquidMat);
+    liquid.renderOrder = 1;
+    this.group.add(liquid);
+
+    this.lidGroup = new THREE.Group();
+    var lidBase = new THREE.Mesh(LID_BASE_GEO, LID_BASE_MATERIAL);
+    lidBase.position.y = LID_Y;
+    var lidDome = new THREE.Mesh(LID_DOME_GEO, LID_DOME_MATERIAL);
+    lidDome.position.y = DOME_Y;
+    this.lidGroup.add(lidBase, lidDome);
+    this.group.add(this.lidGroup);
+
+    this.scene.add(this.group);
+
+    var ambient = new THREE.AmbientLight(0xfff4e0, 0.6);
+    var key = new THREE.DirectionalLight(0xfff0d8, 0.95);
+    key.position.set(3, 4, 5);
+    var fill = new THREE.DirectionalLight(0x88aacc, 0.35);
+    fill.position.set(-3, 2, -3);
+    var rim = new THREE.DirectionalLight(0xffffff, 0.4);
+    rim.position.set(0, 3, -4);
+    this.scene.add(ambient, key, fill, rim);
+  };
+
+  Jar3D.prototype.bindEvents = function(){
+    var self = this;
+
+    function pointerDown(e){
+      self.dragging = true;
+      self.el.classList.add("dragging");
+      var p = e.touches ? e.touches[0] : e;
+      self.lastX = p.clientX;
+      self.lastY = p.clientY;
+      self.velocity = 0;
+    }
+    function pointerMove(e){
+      if (!self.dragging) return;
+      var p = e.touches ? e.touches[0] : e;
+      var dx = p.clientX - self.lastX;
+      self.lastX = p.clientX;
+      self.lastY = p.clientY;
+      var delta = dx * 0.012;
+      self.rotY += delta;
+      self.velocity = delta;
+      if (e.cancelable) e.preventDefault();
+    }
+    function pointerUp(){
+      if (!self.dragging) return;
+      self.dragging = false;
+      self.el.classList.remove("dragging");
+    }
+
+    this.el.addEventListener("mousedown", pointerDown);
+    this.el.addEventListener("touchstart", pointerDown, { passive: true });
+    window.addEventListener("mousemove", pointerMove);
+    this.el.addEventListener("touchmove", pointerMove, { passive: false });
+    window.addEventListener("mouseup", pointerUp);
+    window.addEventListener("touchend", pointerUp);
+
+    this.el.addEventListener("mouseenter", function(){ self.hovered = true; });
+    this.el.addEventListener("mouseleave", function(){ self.hovered = false; });
+  };
+
+  Jar3D.prototype.observeVisibility = function(){
+    var self = this;
+    if (typeof IntersectionObserver === "undefined") return;
+    this.io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        self.visible = entry.isIntersecting;
+        if (self.visible && !self.raf){
+          self.raf = requestAnimationFrame(self.animate);
+        }
+      });
+    }, { threshold: 0.01 });
+    this.io.observe(this.el);
+  };
+
+  Jar3D.prototype.observeResize = function(){
+    var self = this;
+    if (typeof ResizeObserver === "undefined") return;
+    this.ro = new ResizeObserver(function(){
+      var w = self.el.clientWidth;
+      var h = self.el.clientHeight;
+      if (!w || !h) return;
+      self.renderer.setSize(w, h);
+      self.camera.aspect = w / h;
+      self.camera.updateProjectionMatrix();
+    });
+    this.ro.observe(this.el);
+  };
+
+  Jar3D.prototype.animate = function(){
+    if (!this.visible){
+      this.raf = null;
+      return;
+    }
+
+    if (!this.dragging){
+      
+      this.velocity *= 0.94;
+      this.rotY += this.velocity + 0.0022;
+    }
+
+    var liftTarget = this.hovered ? 0.11 : 0;
+    this.lidLift += (liftTarget - this.lidLift) * 0.12;
+    this.lidGroup.position.y = this.lidLift;
+    this.lidGroup.rotation.y = this.lidLift * 1.4;
+
+    var scaleTarget = this.hovered ? 1.045 : 1;
+    this.scaleAmt += (scaleTarget - this.scaleAmt) * 0.12;
+    this.group.scale.setScalar(this.scaleAmt);
+
+    this.group.rotation.y = this.rotY;
+
+    this.renderer.render(this.scene, this.camera);
+    this.raf = requestAnimationFrame(this.animate);
+  };
+
+  function initAllJars(){
+    var nodes = document.querySelectorAll("[data-jar]");
+    nodes.forEach(function(node){ new Jar3D(node); });
+  }
+
+  if (document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", initAllJars);
+  } else {
+    initAllJars();
+  }
+})();
+</script>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+  <div class="cart-head">
+    <h3>Твоята кошница</h3>
+    <button class="cart-close" id="cartClose" aria-label="Затвори кошницата">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <p class="cart-empty">Кошницата е празна. Добави буркан!</p>
+  </div>
+  <div class="cart-foot">
+    <div class="cart-total-row"><span>Общо</span><span id="cartTotal">0.00 €</span></div>
+    <button class="btn btn-solid cart-checkout-btn" type="button">Поръчай</button>
+  </div>
+</aside>
+
+<script>
+(function(){
+  "use strict";
+
+  var cart = {}; 
+
+  var cartToggle = document.getElementById("cartToggle");
+  var cartClose = document.getElementById("cartClose");
+  var cartOverlay = document.getElementById("cartOverlay");
+  var cartDrawer = document.getElementById("cartDrawer");
+  var cartItemsEl = document.getElementById("cartItems");
+  var cartTotalEl = document.getElementById("cartTotal");
+  var cartBadge = document.getElementById("cartBadge");
+
+  function fmt(n){ return n.toFixed(2) + " €"; }
+
+  function openCart(){
+    cartDrawer.classList.add("open");
+    cartOverlay.classList.add("open");
+    cartDrawer.setAttribute("aria-hidden", "false");
+  }
+  function closeCart(){
+    cartDrawer.classList.remove("open");
+    cartOverlay.classList.remove("open");
+    cartDrawer.setAttribute("aria-hidden", "true");
+  }
+
+  cartToggle.addEventListener("click", function(){
+    cartDrawer.classList.contains("open") ? closeCart() : openCart();
+  });
+  cartClose.addEventListener("click", closeCart);
+  cartOverlay.addEventListener("click", closeCart);
+
+  function renderCart(){
+    var ids = Object.keys(cart);
+    var totalItems = 0, totalPrice = 0;
+
+    if (!ids.length){
+      cartItemsEl.innerHTML = '<p class="cart-empty">Кошницата е празна. Добави буркан!</p>';
+    } else {
+      var html = "";
+      ids.forEach(function(id){
+        var item = cart[id];
+        totalItems += item.qty;
+        totalPrice += item.qty * item.price;
+        html +=
+          '<div class="cart-item" data-id="' + id + '">' +
+            '<span class="cart-item-name">' + item.name + '</span>' +
+            '<div class="cart-item-qty">' +
+              '<button class="qty-btn" type="button" data-cart-action="dec">−</button>' +
+              '<span class="qty-value">' + item.qty + '</span>' +
+              '<button class="qty-btn" type="button" data-cart-action="inc">+</button>' +
+            '</div>' +
+            '<span class="cart-item-price">' + fmt(item.qty * item.price) + '</span>' +
+            '<button class="cart-item-remove" type="button" data-cart-action="remove" aria-label="Премахни">✕</button>' +
+          '</div>';
+      });
+      cartItemsEl.innerHTML = html;
+    }
+
+    cartTotalEl.textContent = fmt(totalPrice);
+    if (totalItems > 0){
+      cartBadge.textContent = totalItems;
+      cartBadge.hidden = false;
+    } else {
+      cartBadge.hidden = true;
+    }
+  }
+
+  cartItemsEl.addEventListener("click", function(e){
+    var btn = e.target.closest("[data-cart-action]");
+    if (!btn) return;
+    var row = btn.closest(".cart-item");
+    var id = row.getAttribute("data-id");
+    var action = btn.getAttribute("data-cart-action");
+    if (!cart[id]) return;
+
+    if (action === "inc") cart[id].qty += 1;
+    if (action === "dec") cart[id].qty -= 1;
+    if (action === "remove" || cart[id].qty <= 0) delete cart[id];
+
+    renderCart();
+  });
+
+  document.querySelectorAll(".product-card[data-id]").forEach(function(card){
+    var id = card.getAttribute("data-id");
+    var name = card.getAttribute("data-name");
+    var price = parseFloat(card.getAttribute("data-price"));
+    var stepper = card.querySelector(".qty-stepper");
+    var qtyValueEl = stepper.querySelector(".qty-value");
+    var qty = 1;
+
+    stepper.addEventListener("click", function(e){
+      var btn = e.target.closest(".qty-btn");
+      if (!btn) return;
+      var action = btn.getAttribute("data-qty-action");
+      if (action === "inc") qty += 1;
+      if (action === "dec") qty = Math.max(1, qty - 1);
+      qtyValueEl.textContent = qty;
+    });
+
+    var addBtn = card.querySelector("[data-add-to-cart]");
+    addBtn.addEventListener("click", function(){
+      if (!cart[id]) cart[id] = { name: name, price: price, qty: 0 };
+      cart[id].qty += qty;
+      renderCart();
+      openCart();
+
+      var original = addBtn.textContent;
+      addBtn.textContent = "Добавено ✓";
+      addBtn.disabled = true;
+      setTimeout(function(){
+        addBtn.textContent = original;
+        addBtn.disabled = false;
+      }, 900);
+    });
+  });
+
+  renderCart();
+})();
+</script>
+
+</body>
+</html>
