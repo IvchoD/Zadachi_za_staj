@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Golf IV — Interstellar Charter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+ 
+<header>
+  <div class="wordmark">GOLF IV <em>· Interstellar Charter</em></div>
+  <nav>
+    <a href="#offers">Маршрути</a>
+  </nav>
+</header>
+ 
+<!-- ================= HERO ================= -->
+<section class="hero">
+ 
+  <!-- ЗАМЕНИ hero.mp4 с път до твоето видео (или линк към външен URL) -->
+  <video class="hero-video" autoplay muted loop playsinline poster="">
+    <source src="hero.mp4" type="video/mp4">
+  </video>
+ 
+  <div class="hero-overlay"></div>
+  <div class="stars"></div>
+  <div class="hero-inner">
+ 
+    <div class="eyebrow-line">
+      <span class="caps">Частен междузвезден чартър</span>
+      <span class="rule-gold"></span>
+    </div>
+ 
+    <h1>Земята стана тясна.<br><em>Ние тръгваме нагоре.</em></h1>
+ 
+    <div class="hero-sub">
+      <p>
+        Бюджетът за ракети свърши някъде между два TikTok танца и едно преименуване на X.
+        Останаха ни един тунингован <strong>Голф IV</strong>, газова уредба и достъп до архива на НАСА —
+        достатъчно за частна екскурзия, стига да пътувате леко.
+      </p>
+    </div>
+ 
+  </div>
+</section>
+ 
+<!-- ================= ORNAMENTAL DIVIDER ================= -->
+<div class="divider">
+  <span class="rule"></span>
+  <span class="mark"></span>
+  <span class="rule"></span>
+</div>
+ 
+<!-- ================= OFFERS ================= -->
+<section class="offers" id="offers">
+ 
+  <div class="section-head">
+    <span class="caps">Каталог с маршрути · NASA APOD</span>
+    <h2>Изберете дата от миналото — ние ще изберем гледката.</h2>
+    <p>Всеки ден от архива на НАСА е различна дестинация. Машината на времето е капризна: движи се само назад.</p>
+  </div>
+ 
+  <form class="time-machine" id="time-machine-form">
+    <div class="field">
+      <label class="caps" for="date-input">Дата от миналото</label>
+      <input type="date" id="date-input" name="date" required>
+    </div>
+    <button type="submit" class="btn-submit">Покажи ми дестинацията</button>
+  </form>
+ 
+  <p class="error-box" id="error-box" hidden>
+    Газовата уредба на машината на времето гръмна. Моля, изберете минала дата!
+  </p>
+ 
+  <input type="checkbox" id="modal-toggle" class="modal-toggle">
+ 
+  <div class="ticket" id="result-card" hidden>
+    <div class="ticket-photo">
+      <img id="destination-img" src="" alt="Космическа дестинация">
+      <div class="frame"></div>
+    </div>
+    <div class="ticket-info">
+      <div class="route">
+        <span class="caps">Земя (София)</span>
+        <span class="rule"></span>
+        <span class="caps" id="destination-code">Дестинация</span>
+      </div>
+ 
+      <h3 id="destination-title">—</h3>
+ 
+      <div class="facts">
+        <div><span class="caps">Дата на полета</span><span id="destination-date">—</span></div>
+        <div><span class="caps">Превозно средство</span><span>Голф IV · 1.6 · LPG</span></div>
+      </div>
+ 
+      <div class="gas-gauge">
+        <span class="caps">Ниво на газ</span>
+        <div class="track"><div class="fill"></div></div>
+      </div>
+ 
+      <label for="modal-toggle" class="btn-modal-open">Прочети пълния бриф</label>
+    </div>
+  </div>
+ 
+  <p class="hint-empty" id="hint-empty">Изберете дата отгоре, за да се появи дестинацията.</p>
+ 
+  <div class="modal-overlay">
+    <label for="modal-toggle" class="modal-backdrop"></label>
+    <div class="modal-box">
+      <label for="modal-toggle" class="modal-close">Затвори ✕</label>
+      <span class="caps">Описание на дестинацията</span>
+      <h3 id="modal-title">—</h3>
+      <p id="destination-desc">—</p>
+    </div>
+  </div>
+ 
+</section>
+ 
+<footer>
+  <span class="caps">Данни: <em>NASA APOD API</em> · Превозно средство: VW Golf IV, без гаранция за пристигане</span>
+</footer>
+<script src="script.js"></script>
+
+</body>
+</html>

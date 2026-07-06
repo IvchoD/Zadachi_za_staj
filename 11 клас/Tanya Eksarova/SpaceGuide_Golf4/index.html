@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Междузвезден Голф 4</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+
+    <h1>🚗 Междузвезден Голф 4</h1>
+
+    <p>Единственият космически туроператор с Golf 4 на газ.</p>
+
+</header>
+
+<div class="controls">
+
+    <input type="date" id="date">
+
+    <button onclick="loadPicture()">
+        Покажи ми дестинацията
+    </button>
+
+    <p id="error"></p>
+
+</div>
+
+<div class="card">
+
+    <h2 id="title">Изберете дата</h2>
+
+    <img id="image" src="" alt="NASA Image" style="display:none;">
+
+    <br>
+
+    <a href="#modal" class="btn">
+        📖 Прочети описанието
+    </a>
+
+</div>
+
+<div id="modal" class="modal">
+
+    <div class="modal-content">
+
+        <a href="#" class="close">&times;</a>
+
+        <h2>Описание</h2>
+
+        <p id="description"></p>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,120 @@
+      .catalog-grid {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-wrap: wrap;
+      flex-wrap: wrap;
+      margin: -0.9rem;
+    }
+
+    .jar-card {
+      background: #ffffff;
+      border: 1px solid #e6ddc6;
+      border-radius: 12px;
+      padding: 1.4rem;
+      position: relative;
+      overflow: hidden;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      margin: 0.9rem;
+      width: -webkit-calc(33.333% - 1.8rem);
+      width: calc(33.333% - 1.8rem);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+    }
+
+    .jar-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #92c83e 0%, #f4c430 100%);
+    }
+
+    .jar-card:hover,
+    .jar-card:focus-within {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 30px rgba(59, 42, 26, 0.14);
+    }
+
+    .jar-photo {
+      position: relative;
+      width: 100%;
+      height: 230px;
+      margin: 0.4rem 0 1rem;
+    }
+
+    .jar-photo-inner {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .jar-photo-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .jar-card:hover .jar-photo-inner img,
+    .jar-card:focus-within .jar-photo-inner img {
+      transform: scale(1.08);
+    }
+
+    .jar-photo-inner .icon { transition: transform 0.25s ease; }
+
+    .jar-card:hover .jar-photo-inner .icon {
+      transform: translateY(-4px) scale(1.08);
+    }
+
+    .card-top-row {
+      display: flex;
+      justify-content: flex-end;
+      min-height: 1.6rem;
+    }
+
+    .jar-name {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin: 0 0 0.35rem;
+      color: #3b2a1a;
+    }
+
+    .jar-desc { font-size: 0.9rem; min-height: 2.6em; color: #71614c; }
+
+    .jar-price {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: bold;
+      font-size: 1.25rem;
+      color: #535a42;
+      margin: 0.6rem 0 1rem;
+      margin-top: auto;
+    }
+
+    .add-btn { width: 100%; }
+
+    @media (max-width: 900px) {
+      .jar-card {
+        width: -webkit-calc(50% - 1.8rem);
+        width: calc(50% - 1.8rem);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .jar-card {
+        width: -webkit-calc(100% - 1.8rem);
+        width: calc(100% - 1.8rem);
+      }
+    }

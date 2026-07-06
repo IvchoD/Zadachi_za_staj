@@ -1,0 +1,94 @@
+.hero {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      margin-bottom: 4.5rem;
+    }
+
+    .hero-photo {
+      aspect-ratio: 4 / 3;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(59, 42, 26, 0.12);
+      overflow: hidden;
+    }
+
+    .hero-photo img {
+      transition: transform 0.3s ease;
+    }
+
+    .hero-photo:hover img {
+      transform: scale(1.06);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.6rem;
+      flex-wrap: wrap;
+    }
+
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.6rem;
+    }
+
+    .value-card {
+      background: #ffffff;
+      border: 1px solid #e6ddc6;
+      border-radius: 12px;
+      padding: 1.6rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .value-card:hover,
+    .value-card:focus-within {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 30px rgba(59, 42, 26, 0.14);
+    }
+
+    .value-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #92c83e 0%, #f4c430 100%);
+    }
+
+    .value-card .num {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.6rem;
+      color: #6d9d2a;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .cta-band {
+      background: #ffffff;
+      border: 1px solid #e6ddc6;
+      border-radius: 14px;
+      padding: 2.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-band::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 6px;
+      background: linear-gradient(90deg, #92c83e 0%, #f4c430 100%);
+    }
+
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; }
+      .value-grid { grid-template-columns: 1fr; }
+    }
