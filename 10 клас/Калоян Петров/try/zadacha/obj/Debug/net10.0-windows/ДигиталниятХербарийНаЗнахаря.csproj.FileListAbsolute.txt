@@ -1,0 +1,17 @@
+C:\Users\User\Desktop\myExperience\try\zadacha\bin\Debug\net10.0-windows\ДигиталниятХербарийНаЗнахаря.exe
+C:\Users\User\Desktop\myExperience\try\zadacha\bin\Debug\net10.0-windows\ДигиталниятХербарийНаЗнахаря.deps.json
+C:\Users\User\Desktop\myExperience\try\zadacha\bin\Debug\net10.0-windows\ДигиталниятХербарийНаЗнахаря.runtimeconfig.json
+C:\Users\User\Desktop\myExperience\try\zadacha\bin\Debug\net10.0-windows\ДигиталниятХербарийНаЗнахаря.dll
+C:\Users\User\Desktop\myExperience\try\zadacha\bin\Debug\net10.0-windows\ДигиталниятХербарийНаЗнахаря.pdb
+C:\Users\User\Desktop\myExperience\try\zadacha\obj\Debug\net10.0-windows\zadacha.Form1.resources
+C:\Users\User\Desktop\myExperience\try\zadacha\obj\Debug\net10.0-windows\ДигиталниятХербарийНаЗнахаря.Properties.Resources.resources
+C:\Users\User\Desktop\myExperience\try\zadacha\obj\Debug\net10.0-windows\ДигиталниятХербарийНаЗнахаря.csproj.GenerateResource.cache
+C:\Users\User\Desktop\myExperience\try\zadacha\obj\Debug\net10.0-windows\ДигиталниятХербарийНаЗнахаря.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Desktop\myExperience\try\zadacha\obj\Debug\net10.0-windows\ДигиталниятХербарийНаЗнахаря.AssemblyInfoInputs.cache
+C:\Users\User\Desktop\myExperience\try\zadacha\obj\Debug\net10.0-windows\ДигиталниятХербарийНаЗнахаря.AssemblyInfo.cs
+C:\Users\User\Desktop\myExperience\try\zadacha\obj\Debug\net10.0-windows\ДигиталниятХербарийНаЗнахаря.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\myExperience\try\zadacha\obj\Debug\net10.0-windows\ДигиталниятХербарийНаЗнахаря.dll
+C:\Users\User\Desktop\myExperience\try\zadacha\obj\Debug\net10.0-windows\refint\ДигиталниятХербарийНаЗнахаря.dll
+C:\Users\User\Desktop\myExperience\try\zadacha\obj\Debug\net10.0-windows\ДигиталниятХербарийНаЗнахаря.pdb
+C:\Users\User\Desktop\myExperience\try\zadacha\obj\Debug\net10.0-windows\ДигиталниятХербарийНаЗнахаря.genruntimeconfig.cache
+C:\Users\User\Desktop\myExperience\try\zadacha\obj\Debug\net10.0-windows\ref\ДигиталниятХербарийНаЗнахаря.dll
